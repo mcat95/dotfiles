@@ -17,8 +17,7 @@ function git_prompt_info() {
 export LC_ALL=en_US.UTF-8
 export TERM="xterm-256color"
 
-source "$HOME/.antigen/antigen.zsh"
-
+source "$HOME/.antigen/antigen.zsh" || source "/usr/share/zsh/scripts/antigen/antigen.zsh"
 #antigen bundle Lokaltog/powerline powerline/bindings/zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
