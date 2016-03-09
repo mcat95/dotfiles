@@ -1,0 +1,173 @@
+Eager macro-expansion failure: (invalid-function (\` (cond ((nth ((\, index)) (assoc help-mode word-help-mode-alist))) (t ((\, default))))))
+Eager macro-expansion failure: (invalid-function (\` (cond ((nth ((\, index)) (assoc help-mode word-help-mode-alist))) (t ((\, default))))))
+Eager macro-expansion failure: (invalid-function (\` (cond ((nth ((\, index)) (assoc help-mode word-help-mode-alist))) (t ((\, default))))))
+Eager macro-expansion failure: (invalid-function (\` (cond ((nth ((\, index)) (assoc help-mode word-help-mode-alist))) (t ((\, default))))))
+Eager macro-expansion failure: (invalid-function (\` (cond ((nth ((\, index)) (assoc help-mode word-help-mode-alist))) (t ((\, default))))))
+Eager macro-expansion failure: (invalid-function (\` (cond ((nth ((\, index)) (assoc help-mode word-help-mode-alist))) (t ((\, default))))))
+Loading `/home/gdefermin/CiaoDE-1.14.2-13646/emacs-mode/word-help.el': old-style backquotes detected!
+Loading info...
+
+Compiling ciao.el
+
+In toplevel form:
+ciao.el:1682:1:Warning: global/dynamic var `patata_var' lacks a prefix
+
+In ciao-mode-version-control:
+ciao.el:4712:17:Warning: Use `with-current-buffer' rather than
+    save-excursion+set-buffer
+
+In ciao-inferior-mode:
+ciao.el:4925:16:Warning: assignment to free variable `comint-highlight-prompt'
+
+In ciao-insert-logos:
+ciao.el:5018:10:Warning: `next-line' is for interactive use only; use
+    `forward-line' instead.
+
+In ciao-find-error:
+ciao.el:5413:30:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:5417:23:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:5419:12:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:5419:12:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+
+In ciao-get-next-error-data:
+ciao.el:5441:24:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:5517:20:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:5517:20:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+
+In ciao-indent-file:
+ciao.el:5690:19:Warning: assignment to free variable `tmp_file_1'
+ciao.el:5695:14:Warning: assignment to free variable `current-point'
+ciao.el:5694:39:Warning: assignment to free variable `current-start'
+ciao.el:5691:20:Warning: assignment to free variable `source-buffer'
+ciao.el:5692:69:Warning: reference to free variable `tmp_file_1'
+ciao.el:5692:69:Warning: `insert-buffer' is for interactive use only; use
+    `insert-buffer-substring' instead.
+ciao.el:5692:86:Warning: reference to free variable `source-buffer'
+ciao.el:5694:22:Warning: reference to free variable `current-start'
+ciao.el:5694:22:Warning: reference to free variable `current-point'
+
+In ciao-load-buffer-current-or-main:
+ciao.el:6455:46:Warning: Use `with-current-buffer' rather than
+    save-excursion+set-buffer
+
+In ciao-real-select-buffers-for-debug:
+ciao.el:6719:10:Warning: `mapcar' called for effect; use `mapc' or `dolist'
+    instead
+
+In ciao-how-debugged:
+ciao.el:6743:17:Warning: Use `with-current-buffer' rather than
+    save-excursion+set-buffer
+
+In ciao-debug-display-line:
+ciao.el:6919:25:Warning: Use `with-current-buffer' rather than
+    save-excursion+set-buffer
+ciao.el:6919:25:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:6983:23:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:6966:34:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:6966:34:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:6981:54:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:6981:54:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+
+In ciao-debug-uncolor-line:
+ciao.el:7019:30:Warning: Use `with-current-buffer' rather than
+    save-excursion+set-buffer
+
+In ciao-debug-breakon:
+ciao.el:7303:14:Warning: Use `with-current-buffer' rather than
+    save-excursion+set-buffer
+ciao.el:7315:16:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:7315:16:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+
+In ciao-debug-breakoff:
+ciao.el:7329:14:Warning: Use `with-current-buffer' rather than
+    save-excursion+set-buffer
+
+In ciao-debug-all-breakoff:
+ciao.el:7353:14:Warning: Use `with-current-buffer' rather than
+    save-excursion+set-buffer
+
+In ciao-debug-breakparams:
+ciao.el:7372:9:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+
+In ciao-color:
+ciao.el:7426:13:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:7432:33:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+
+In ciao-uncolor:
+ciao.el:7439:9:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+
+In ciao-debug-redisplay-breakpt:
+ciao.el:7507:42:Warning: Use `with-current-buffer' rather than
+    save-excursion+set-buffer
+ciao.el:7504:28:Warning: `goto-line' is for interactive use only; use
+    `forward-line' instead.
+
+In ciao-document-variables:
+ciao.el:7862:6:Warning: `mapcar' called for effect; use `mapc' or `dolist'
+    instead
+ciao.el:7870:6:Warning: `mapcar' called for effect; use `mapc' or `dolist'
+    instead
+ciao.el:7866:52:Warning: `mapcar' called for effect; use `mapc' or `dolist'
+    instead
+ciao.el:7870:51:Warning: `mapcar' called for effect; use `mapc' or `dolist'
+    instead
+ciao.el:7875:51:Warning: `mapcar' called for effect; use `mapc' or `dolist'
+    instead
+
+In ciao-fix-old-version-maintenance:
+ciao.el:8000:10:Warning: `next-line' is for interactive use only; use
+    `forward-line' instead.
+ciao.el:8012:10:Warning: `previous-line' is for interactive use only; use
+    `forward-line' with negative argument instead.
+Wrote /home/gdefermin/CiaoDE-1.14.2-13646/emacs-mode/ciao.elc
+Compiling word-help.el
+
+In toplevel form:
+word-help.el:297:1:Warning: !! The file uses old-style backquotes !!
+This functionality has been obsolete for more than 10 years already
+and will be removed soon.  See (elisp)Backquote in the manual.
+
+In word-help-wrapt-lisp-complete-symbol:
+word-help.el:322:1:Warning: `interactive-p' is an obsolete function (as of
+    23.2); use `called-interactively-p' instead.
+word-help.el:322:22:Warning: `lisp-complete-symbol' is an obsolete function
+    (as of 24.4); use `completion-at-point' instead.
+
+In word-help-wrapt-makefile-complete:
+word-help.el:323:22:Warning: `interactive-p' is an obsolete function (as of
+    23.2); use `called-interactively-p' instead.
+
+In word-help-wrapt-ispell-complete-word:
+word-help.el:324:22:Warning: `interactive-p' is an obsolete function (as of
+    23.2); use `called-interactively-p' instead.
+
+In word-help-wrapt-complete-tag:
+word-help.el:325:1:Warning: `interactive-p' is an obsolete function (as of
+    23.2); use `called-interactively-p' instead.
+
+In word-help-lookup:
+word-help.el:336:45:Warning: `(\` (cond ((nth ((\, index)) (assoc help-mode
+    word-help-mode-alist))) (t ((\, default)))))' is a malformed function
+word-help.el:344:1:Warning: !! The file uses old-style backquotes !!
+This functionality has been obsolete for more than 10 years already
+and will be removed soon.  See (elisp)Backquote in the manual.
+word-help.el:352:1:Error: Invalid function: (\` (cond ((nth ((\, index)) (assoc help-mode word-help-mode-alist))) (t ((\, default)))))

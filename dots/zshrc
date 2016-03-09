@@ -1,0 +1,60 @@
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+bindkey -e
+
+bindkey "^[[3~" delete-char
+bindkey "^[3:5~" delete-char
+
+# Get the name of the branch we are on
+function git_prompt_info() {
+    ref=$(git symbolic-ref HEAD 2> /dev/null) || \
+	ref=$(git rev-parse --short HEAD 2> /dev/null) || return
+    echo " $ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
+}
+
+# Created by newuser for 5.2
+export LC_ALL=en_US.UTF-8
+export TERM="xterm-256color"
+
+source "$HOME/.antigen/antigen.zsh"
+
+#antigen bundle Lokaltog/powerline powerline/bindings/zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git
+antigen bundle heroku
+antigen bundle pip
+antigen bundle lein
+antigen bundle command-not-found
+antigen bundle autojump
+antigen bundle brew
+antigen bundle common-aliases
+antigen bundle compleat
+antigen bundle git-extras
+antigen bundle git-flow
+antigen bundle npm
+antigen bundle osx
+antigen bundle web-search
+antigen bundle z
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-history-substring-search ./zsh-history-substring-search.zsh
+
+# Load the theme.
+antigen theme gnzh
+
+# Tell antigen that you're done.
+antigen apply
+
+# Setup zsh-autosuggestions
+source /usr/share/zsh/plugins/zsh-autosuggestions/autosuggestions.zsh
+
+
+alias xemacs='/usr/bin/emacs'
+alias emacs='emacs -nw'
+alias ls='ls --color'
+alias ".1"="cd .."
+alias ".2"="cd ../../"
+alias ".3"="cd ../../../"
+alias ".4"="cd ../../../../"
+alias ".h"="cd ~"
