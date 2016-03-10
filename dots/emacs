@@ -120,19 +120,23 @@
 
 ;;; ################################## MODE CONFIG ########################################
 
-;;###JS2-MODE###
+;;; ###JS2-MODE###
+(setq js2-highlight-level 3)
+
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
-(setq js2-highlight-level 3)
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
+(add-hook 'js2-mode-hook 'js2-refactor-mode)
+;(add-hook 'js2-mode-hook 'js2-jsx-mode)
 
-(add-hook 'js-mode-hook (lambda () (tern-mode t)))
-(eval-after-load 'tern
-  '(progn
-     (require 'tern-auto-complete)
-     (tern-ac-setup)))
+;;(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+;;(eval-after-load 'tern
+;;  '(progn
+;;     (require 'tern-auto-complete)
+;;     (tern-ac-setup)))
 
 (js2r-add-keybindings-with-prefix "C-c C-m")
+
+(global-set-key (kbd "C-j") 'js2-jump-to-definition)
 
 ;;Temporally disabled
 ;(require 'editorconfig)
