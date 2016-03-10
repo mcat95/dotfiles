@@ -46,7 +46,7 @@ antigen theme gnzh
 antigen apply
 
 # Setup zsh-autosuggestions
-source /usr/share/zsh/plugins/zsh-autosuggestions/autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 
 alias xemacs='/usr/bin/emacs'
