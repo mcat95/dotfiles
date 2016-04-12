@@ -1,4 +1,4 @@
-;; .Emacs
+;; -*- mode: emacs-lisp-mode -*-
 ;;; ################################## GLOBAL CONFIG ########################################
 ;;; uncomment this line to disable loading of "default.el" at startup
  (setq inhibit-default-init t)
@@ -42,6 +42,9 @@
  '(inhibit-startup-screen t))
 
 ;;; ################################## MISC UTILITIES ########################################
+
+(require 'auto-complete)
+(global-auto-complete-mode t)
 
 ; mouse integration
 (require 'mouse)
@@ -118,10 +121,21 @@
 (global-set-key (kbd "C-<up>")    'windmove-up)
 (global-set-key (kbd "C-<down>")  'windmove-down)
 
+;; query-replace current word
+(defun qrc (replace-str)
+  (interactive "sDo query-replace current word with: ")
+  (forward-word)
+  (let ((end (point)))
+    (backward-word)
+    (kill-ring-save (point) end)
+          (query-replace (current-kill 0) replace-str) ))
+
+
 ;;; ################################## MODE CONFIG ########################################
 
 ;;; ###JS2-MODE###
 (setq js2-highlight-level 3)
+(add-hook 'js2-mode-hook 'ac-js2-setup-auto-complete-mode)
 
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
@@ -135,6 +149,7 @@
 ;;     (tern-ac-setup)))
 
 (js2r-add-keybindings-with-prefix "C-c C-m")
+
 
 (global-set-key (kbd "C-j") 'js2-jump-to-definition)
 
