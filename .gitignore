@@ -1,1 +1,3 @@
 *.backup
+dots/emacs.d/auto-save-list
+\#*\#

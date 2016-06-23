@@ -1,4 +1,4 @@
-;; -*- mode: emacs-lisp-mode -*-
+;; .Emacs
 ;;; ################################## GLOBAL CONFIG ########################################
 ;;; uncomment this line to disable loading of "default.el" at startup
  (setq inhibit-default-init t)
@@ -28,6 +28,8 @@
 
 ;; Speedbar
 (sr-speedbar-open)
+(set 'speedbar-update-flag nil)
+(sr-speedbar-refresh-turn-off)
 
 (setq x-select-enable-clipboard t)
 (put 'upcase-region 'disabled nil)
@@ -42,9 +44,10 @@
  '(inhibit-startup-screen t))
 
 ;;; ################################## MISC UTILITIES ########################################
-
 (require 'auto-complete)
 (global-auto-complete-mode t)
+(show-paren-mode 1)
+
 
 ; mouse integration
 (require 'mouse)
@@ -115,47 +118,92 @@
 ; menus with C-F10
 (global-set-key (kbd "C-<f10>") 'menu-bar-open)
 
+; whitespace mode with C-F3
+(global-set-key (kbd "C-<f3>") 'whitespace-mode)
+
 ; Move between buffers in a cool way
 (global-set-key (kbd "C-<left>")  'windmove-left)
 (global-set-key (kbd "C-<right>") 'windmove-right)
 (global-set-key (kbd "C-<up>")    'windmove-up)
 (global-set-key (kbd "C-<down>")  'windmove-down)
 
-;; query-replace current word
-(defun qrc (replace-str)
-  (interactive "sDo query-replace current word with: ")
-  (forward-word)
-  (let ((end (point)))
-    (backward-word)
-    (kill-ring-save (point) end)
-          (query-replace (current-kill 0) replace-str) ))
+; Kill entire line with C-c-K
+(global-set-key "\C-ck" 'kill-whole-line)
+
+
+(defadvice show-paren-function
+  (after show-matching-paren-offscreen activate)
+  "If the matching paren is offscreen, show the matching line in the
+        echo area. Has no effect if the character before point is not of
+        the syntax class ')'."
+  (interactive)
+  (let* ((cb (char-before (point)))
+	 (matching-text (and cb
+			     (char-equal (char-syntax cb) ?\) )
+			     (blink-matching-open))))
+    (when matching-text (message matching-text))))
 
 
 ;;; ################################## MODE CONFIG ########################################
 
+;;Flycheck
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+;; disable jshint since we prefer eslint checking
+(setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+    '(javascript-jshint)))
+
+;; use eslint with web-mode for jsx files
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+
+;; customize flycheck temp file prefix
+(setq-default flycheck-temp-prefix ".flycheck")
+
+;; disable json-jsonlist checking for json files
+(setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+    '(json-jsonlist)))
+
 ;;; ###JS2-MODE###
 (setq js2-highlight-level 3)
-(add-hook 'js2-mode-hook 'ac-js2-setup-auto-complete-mode)
 
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
 (add-hook 'js2-mode-hook 'js2-refactor-mode)
-;(add-hook 'js2-mode-hook 'js2-jsx-mode)
 
-;;(add-hook 'js-mode-hook (lambda () (tern-mode t)))
-;;(eval-after-load 'tern
-;;  '(progn
-;;     (require 'tern-auto-complete)
-;;     (tern-ac-setup)))
+
+
+(add-hook 'web-mode-hook
+  (lambda ()
+  (if (equal web-mode-content-type "javascript")
+  (web-mode-set-content-type "jsx")
+  (message "now set to: %s" web-mode-content-type))))
+
 
 (js2r-add-keybindings-with-prefix "C-c C-m")
 
-
 (global-set-key (kbd "C-j") 'js2-jump-to-definition)
 
-;;Temporally disabled
-;(require 'editorconfig)
-;(editorconfig-mode 1)
+;;; ###WEB-MODE###
+(defun my-web-mode-hook ()
+  "Hooks for Web mode. Adjust indents"
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2))
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+    (let ((web-mode-enable-part-face nil))
+      ad-do-it)
+    ad-do-it))
+
+(setq web-mode-enable-auto-pairing t)
+
+;;; ###EDITORCONFIG###
+(require 'editorconfig)
+(editorconfig-mode 1)
+(editorconfig-apply)
 
 ;;(add-hook 'web-mode-hook (lambda () (tern-mode t)))
 
@@ -163,7 +211,7 @@
 ;;  '(progn
 ;;(require 'tern-auto-complete)
 ;;     (tern-ac-setup)))
-
+(put 'downcase-region 'disabled nil)
 ;; ###OCTAVE-MODE###
 ;; Extra octave goodies :)
 (add-hook 'octave-mode-hook
@@ -177,11 +225,10 @@
 (add-to-list 'load-path "~/.emacs.d/ciao/")
 (load "ciao") ;; best not to include the ending “.el” or “.elc”
 
-
 ;;; ################################## FILES ########################################
 (add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
 (add-to-list 'auto-mode-alist '("\\.pl$" . ciao-mode))
-
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
