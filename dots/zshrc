@@ -57,3 +57,6 @@ alias ".2"="cd ../../"
 alias ".3"="cd ../../../"
 alias ".4"="cd ../../../../"
 alias ".h"="cd ~"
+alias "yolo"="yaourt --noconfirm -Syuaa"
+alias "gap"="git add -p"
+eval $(thefuck --alias)

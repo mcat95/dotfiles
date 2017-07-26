@@ -30,11 +30,11 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
 ;; Speedbar
-;;(sr-speedbar-open)
-;;(set 'speedbar-update-flag nil)
-;;(sr-speedbar-refresh-turn-off)
+(sr-speedbar-open)
+(set 'speedbar-update-flag nil)
+(sr-speedbar-refresh-turn-off)
 
-(setq select-enable-clipboard t)
+(setq x-select-enable-clipboard t)
 (put 'upcase-region 'disabled nil)
 
 ;; Saves. Not in .emacs.d!!
@@ -270,16 +270,6 @@ buffer in current window."
 ;; ###CIAO-MODE###
 (add-to-list 'load-path "~/.emacs.d/ciao/")
 (load "ciao") ;; best not to include the ending “.el” or “.elc”
-
-;; ##ICONS-IN-TERMINAL##
-(add-to-list 'load-path "~/.local/share/icons-in-terminal/")
-(require 'icons-in-terminal)
-(insert (icons-in-terminal 'oct_flame))
-(add-to-list 'load-path "~/.emacs.d/sidebar.el/")
-(require 'sidebar)
-(global-set-key (kbd "C-x f") 'sidebar-open)
-(global-set-key (kbd "C-x a") 'sidebar-buffers-open)
-
 
 ;;; ################################## FILES ########################################
 (add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
