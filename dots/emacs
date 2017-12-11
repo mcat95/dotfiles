@@ -31,6 +31,7 @@
 
 ;; Speedbar
 (sr-speedbar-open)
+
 ;(set 'speedbar-update-flag nil)
 ;(sr-speedbar-refresh-turn-off)
 
@@ -154,6 +155,7 @@
 ; Kill entire line with C-c-K
 (global-set-key "\C-ck" 'kill-whole-line)
 
+
 (defadvice show-paren-function
   (after show-matching-paren-offscreen activate)
   "If the matching paren is offscreen, show the matching line in the
@@ -165,7 +167,7 @@
 			     (char-equal (char-syntax cb) ?\) )
 			     (blink-matching-open))))
     (when matching-text (message matching-text))))
-	   	         
+
 
 ;;; ################################## MODE CONFIG ########################################
 
@@ -212,6 +214,7 @@
 
 (js2r-add-keybindings-with-prefix "C-c C-m")
 
+
 (global-set-key (kbd "C-j") 'js2-jump-to-definition)
 
 ;;; ###WEB-MODE###
@@ -257,6 +260,33 @@ buffer in current window."
      (require 'tern-auto-complete)
      (tern-ac-setup)))
 
+
+;;; ###WEB-MODE###
+(defun my-web-mode-hook ()
+  "Hooks for Web mode. Adjust indents"
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2))
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+    (let ((web-mode-enable-part-face nil))
+      ad-do-it)
+    ad-do-it))
+
+(setq web-mode-enable-auto-pairing t)
+
+;;; ###EDITORCONFIG###
+(require 'editorconfig)
+(editorconfig-mode 1)
+(editorconfig-apply)
+
+;;(add-hook 'web-mode-hook (lambda () (tern-mode t)))
+
+;;(eval-after-load 'tern
+;;  '(progn
+;;(require 'tern-auto-complete)
+;;     (tern-ac-setup)))
 
 (put 'downcase-region 'disabled nil)
 ;; ###OCTAVE-MODE###
