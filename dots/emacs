@@ -30,9 +30,9 @@
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
 ;; Speedbar
-;;(sr-speedbar-open)
-;;(set 'speedbar-update-flag nil)
-;;(sr-speedbar-refresh-turn-off)
+(sr-speedbar-open)
+;(set 'speedbar-update-flag nil)
+;(sr-speedbar-refresh-turn-off)
 
 (setq select-enable-clipboard t)
 (put 'upcase-region 'disabled nil)
@@ -50,7 +50,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (undo-tree evil web-mode tern-auto-complete symon sr-speedbar mocha json-mode flycheck exec-path-from-shell editorconfig-core editorconfig discover-js2-refactor)))
+    (fzf restclient undo-tree evil web-mode tern-auto-complete symon sr-speedbar mocha json-mode flycheck exec-path-from-shell editorconfig-core editorconfig discover-js2-refactor)))
  '(sr-speedbar-auto-refresh nil))
 
 ;;; ################################## MISC UTILITIES ########################################
@@ -219,7 +219,8 @@
   "Hooks for Web mode. Adjust indents"
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
-  (setq web-mode-code-indent-offset 2))
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-attr-indent-offset 2))
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 (defadvice web-mode-highlight-part (around tweak-jsx activate)
   (if (equal web-mode-content-type "jsx")
@@ -277,8 +278,12 @@ buffer in current window."
 (insert (icons-in-terminal 'oct_flame))
 (add-to-list 'load-path "~/.emacs.d/sidebar.el/")
 (require 'sidebar)
-(global-set-key (kbd "C-x f") 'sidebar-open)
-(global-set-key (kbd "C-x a") 'sidebar-buffers-open)
+;(global-set-key (kbd "C-x f") 'sidebar-open)
+;(global-set-key (kbd "C-x a") 'sidebar-buffers-open)
+;(global-set-key (kbd "C-x a") 'sidebar-buffers-open)
+
+
+(global-set-key (kbd "C-x f") 'fzf-git)
 
 
 ;;; ################################## FILES ########################################
