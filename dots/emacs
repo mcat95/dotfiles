@@ -1,7 +1,9 @@
 ;; .Emacs
 ;;; ################################## GLOBAL CONFIG ########################################
+
 ;;; uncomment this line to disable loading of "default.el" at startup
  (setq inhibit-default-init t)
+(setq byte-compile-warnings '(not free-vars ))
 
 ;; enable visual feedback on selections
 (setq transient-mark-mode t)
@@ -16,6 +18,7 @@
 ;; always end a file with a newline
 (setq require-final-newline 'query)
 
+
 ;; packages
 (require 'package)
 (dolist (source '(("marmalade" . "http://marmalade-repo.org/packages/")
@@ -29,7 +32,10 @@
 ;; Speedbar
 (sr-speedbar-open)
 
-(setq x-select-enable-clipboard t)
+;(set 'speedbar-update-flag nil)
+;(sr-speedbar-refresh-turn-off)
+
+(setq select-enable-clipboard t)
 (put 'upcase-region 'disabled nil)
 
 ;; Saves. Not in .emacs.d!!
@@ -45,10 +51,21 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (matlab-mode latex-preview-pane haskell-mode web-mode tern-auto-complete sr-speedbar mocha markdown-preview-eww markdown-mode editorconfig-core discover-js2-refactor)))
+    (matlab-mode latex-preview-pane haskell-mode web-mode tern-auto-complete sr-speedbar mocha markdown-preview-eww markdown-mode editorconfig-core discover-js2-refactor fzf restclient undo-tree evil symon json-mode flycheck exec-path-from-shell editorconfig )))
  '(sr-speedbar-auto-refresh nil))
 
 ;;; ################################## MISC UTILITIES ########################################
+(require 'auto-complete)
+(global-auto-complete-mode t)
+(show-paren-mode 1)
+
+; Toggle evilness
+(global-set-key (kbd "<f12>") 'evil-mode)
+
+; Browser
+(setq browse-url-generic-program 
+      (executable-find (getenv "BROWSER")) 
+      browse-url-browser-function 'browse-url-generic)
 
 ; mouse integration
 (require 'mouse)
@@ -119,35 +136,150 @@
 ; menus with C-F10
 (global-set-key (kbd "C-<f10>") 'menu-bar-open)
 
+; whitespace mode with C-F3
+(global-set-key (kbd "C-<f3>") 'whitespace-mode)
+
 ; Move between buffers in a cool way
 (global-set-key (kbd "C-<left>")  'windmove-left)
 (global-set-key (kbd "C-<right>") 'windmove-right)
 (global-set-key (kbd "C-<up>")    'windmove-up)
 (global-set-key (kbd "C-<down>")  'windmove-down)
 
-(global-set-key (kbd "<f6>")  'mc/mark-next-like-this)
-(global-set-key (kbd "<f5>")  'mc/mark-previous-like-this)
+; Multi cursors!
+(require 'multiple-cursors)
+(global-set-key (kbd "C-<f5>") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<f4>") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+
+; Kill entire line with C-c-K
+(global-set-key "\C-ck" 'kill-whole-line)
+
+
+(defadvice show-paren-function
+  (after show-matching-paren-offscreen activate)
+  "If the matching paren is offscreen, show the matching line in the
+        echo area. Has no effect if the character before point is not of
+        the syntax class ')'."
+  (interactive)
+  (let* ((cb (char-before (point)))
+	 (matching-text (and cb
+			     (char-equal (char-syntax cb) ?\) )
+			     (blink-matching-open))))
+    (when matching-text (message matching-text))))
 
 
 ;;; ################################## MODE CONFIG ########################################
 
-;;###JS2-MODE###
+;;Flycheck
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+;; disable jshint since we prefer eslint checking
+(setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+    '(javascript-jshint)))
+
+;; use eslint with web-mode for jsx files
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+
+;; customize flycheck temp file prefix
+(setq-default flycheck-temp-prefix ".flycheck")
+
+;; disable json-jsonlist checking for json files
+(setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+    '(json-jsonlist)))
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
+(add-to-list 'load-path "~/.emacs.d/prettier-js/")
+(require 'prettier-js)
+(global-set-key (kbd "C-c C-p") 'prettier)
+;;; ###JS2-MODE###
+(setq js2-highlight-level 3)
+
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
-(setq js2-highlight-level 3)
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
+(add-hook 'js2-mode-hook 'js2-refactor-mode)
 
-(add-hook 'js-mode-hook (lambda () (tern-mode t)))
+
+
+(add-hook 'web-mode-hook
+  (lambda ()
+  (if (equal web-mode-content-type "javascript")
+  (web-mode-set-content-type "jsx")
+  (message "now set to: %s" web-mode-content-type))))
+
+
+(js2r-add-keybindings-with-prefix "C-c C-m")
+
+
+(global-set-key (kbd "C-j") 'js2-jump-to-definition)
+
+;;; ###WEB-MODE###
+(defun my-web-mode-hook ()
+  "Hooks for Web mode. Adjust indents"
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-attr-indent-offset 2))
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+    (let ((web-mode-enable-part-face nil))
+      ad-do-it)
+    ad-do-it))
+
+(setq web-mode-enable-auto-pairing t)
+
+(defun toggle-window-dedicated ()
+  "Control whether or not Emacs is allowed to display another
+buffer in current window."
+  (interactive)
+  (message
+   (if (let (window (get-buffer-window (current-buffer)))
+         (set-window-dedicated-p window (not (window-dedicated-p window))))
+       "%s: Can't touch this!"
+     "%s is up for grabs.")
+   (current-buffer)))
+
+(global-set-key (kbd "C-c t") 'toggle-window-dedicated)
+
+;;; ###EDITORCONFIG###
+(require 'editorconfig)
+(editorconfig-mode 1)
+(editorconfig-apply)
+
+;; ## Tern (WIP) ##
+(add-to-list 'load-path "~/.emacs.d/tern/emacs/")
+(autoload 'tern-mode "tern.el" nil t)
+(add-hook 'web-mode-hook (lambda () (tern-mode t)))
 (eval-after-load 'tern
   '(progn
      (require 'tern-auto-complete)
      (tern-ac-setup)))
 
-(js2r-add-keybindings-with-prefix "C-c C-m")
 
-;;Temporally disabled
-;(require 'editorconfig)
-;(editorconfig-mode 1)
+;;; ###WEB-MODE###
+(defun my-web-mode-hook ()
+  "Hooks for Web mode. Adjust indents"
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2))
+(add-hook 'web-mode-hook  'my-web-mode-hook)
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+    (let ((web-mode-enable-part-face nil))
+      ad-do-it)
+    ad-do-it))
+
+(setq web-mode-enable-auto-pairing t)
+
+;;; ###EDITORCONFIG###
+(require 'editorconfig)
+(editorconfig-mode 1)
+(editorconfig-apply)
 
 ;;(add-hook 'web-mode-hook (lambda () (tern-mode t)))
 
@@ -161,6 +293,7 @@
 ;;(require 'tern-auto-complete)
 ;;     (tern-ac-setup)))
 
+(put 'downcase-region 'disabled nil)
 ;; ###OCTAVE-MODE###
 ;; Extra octave goodies :)
 (add-hook 'octave-mode-hook
@@ -174,6 +307,19 @@
 (add-to-list 'load-path "~/.emacs.d/ciao/")
 (load "ciao") ;; best not to include the ending “.el” or “.elc”
 
+;; ##ICONS-IN-TERMINAL##
+(add-to-list 'load-path "~/.local/share/icons-in-terminal/")
+(require 'icons-in-terminal)
+(insert (icons-in-terminal 'oct_flame))
+(add-to-list 'load-path "~/.emacs.d/sidebar.el/")
+(require 'sidebar)
+;(global-set-key (kbd "C-x f") 'sidebar-open)
+;(global-set-key (kbd "C-x a") 'sidebar-buffers-open)
+;(global-set-key (kbd "C-x a") 'sidebar-buffers-open)
+
+
+(global-set-key (kbd "C-x f") 'fzf-git)
+
 
 ;;; ################################## FILES ########################################
 (add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
@@ -181,8 +327,11 @@
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
 (add-to-list 'auto-mode-alist '("\\.pl$" . ciao-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+
 
 (put 'downcase-region 'disabled nil)
+(setq-default indent-tabs-mode nil) 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
