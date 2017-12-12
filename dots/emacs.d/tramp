@@ -1,0 +1,28 @@
+;; -*- emacs-lisp -*- <17/11/04 19:17:32 /home/mcat/.emacs.d/tramp>
+;; Tramp connection history.  Don't change this file.
+;; You can delete it, forcing Tramp to reapply the checks.
+
+((["scp" "pi" "192.168.1.58" nil nil]
+  ("uname" "Linux 4.1.19-v7+")
+  ("locale" "LC_ALL=C")
+  ("test" "test")
+  ("remote-path"
+   ("/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
+  ("remote-shell" "/bin/sh")
+  ("file-exists" "test -e")
+  ("ls" "/bin/ls --color=never")
+  ("ls-dired" t)
+  ("stat" nil)
+  ("perl-file-spec" t)
+  ("perl-cwd-realpath" t)
+  ("perl" "\\perl")
+  ("id" "/usr/bin/id")
+  ("gid-integer" 1000)
+  ("gid-string" "pi")
+  ("readlink" "\\readlink")
+  ("uid-integer" 1000)
+  ("~" "/home/pi"))
+ (["ssh" "mcat" "satelectronics.net" nil nil]
+  nil)
+ (["scp" "mcat" "satelectronics.net" nil nil]
+  nil))

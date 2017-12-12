@@ -3,10 +3,23 @@
 
 (setq mc/cmds-to-run-for-all
       '(
-	js2r-kill
-	keyboard-escape-quit
-	))
+        c-electric-brace
+        c-electric-colon
+        c-electric-lt-gt
+        c-electric-paren
+        c-electric-semi&comma
+        c-indent-line-or-region
+        downcase-region
+        indent-for-tab-command
+        js2r-kill
+        keyboard-escape-quit
+        kill-region
+        move-text-up
+        ))
 
 (setq mc/cmds-to-run-once
       '(
-	))
+        kmacro-end-or-call-macro
+        suspend-frame
+        upcase-region
+        ))

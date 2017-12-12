@@ -38,8 +38,15 @@
 
 ;; Sr-speedbar no refresh
 (custom-set-variables
- '(sr-speedbar-auto-refresh nil)
- '(inhibit-startup-screen t))
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(inhibit-startup-screen t)
+ '(package-selected-packages
+   (quote
+    (matlab-mode latex-preview-pane haskell-mode web-mode tern-auto-complete sr-speedbar mocha markdown-preview-eww markdown-mode editorconfig-core discover-js2-refactor)))
+ '(sr-speedbar-auto-refresh nil))
 
 ;;; ################################## MISC UTILITIES ########################################
 
@@ -118,6 +125,10 @@
 (global-set-key (kbd "C-<up>")    'windmove-up)
 (global-set-key (kbd "C-<down>")  'windmove-down)
 
+(global-set-key (kbd "<f6>")  'mc/mark-next-like-this)
+(global-set-key (kbd "<f5>")  'mc/mark-previous-like-this)
+
+
 ;;; ################################## MODE CONFIG ########################################
 
 ;;###JS2-MODE###
@@ -140,6 +151,11 @@
 
 ;;(add-hook 'web-mode-hook (lambda () (tern-mode t)))
 
+(setq web-mode-code-indent-offset 2)
+(setq web-mode-markup-indent-offset 2)
+;;(setq-default indent-tabs-mode t)
+(setq-default indent-tabs-mode nil)
+
 ;;(eval-after-load 'tern
 ;;  '(progn
 ;;(require 'tern-auto-complete)
@@ -161,8 +177,16 @@
 
 ;;; ################################## FILES ########################################
 (add-to-list 'auto-mode-alist '("\\.json$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.m$" . octave-mode))
 (add-to-list 'auto-mode-alist '("\\.pl$" . ciao-mode))
 
+(put 'downcase-region 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(setq tramp-default-method "ssh")
